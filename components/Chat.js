@@ -10,16 +10,7 @@ import 'firebase/firestore';
 
 // display data from  Firestore database in the app
 const firebaseConfig = {
- /* apiKey: 'AIzaSyDrhy5q3rk0dnggPRNobVjuaSUgQhp1934',
-  authDomain: 'chatapp-5f828.firebaseapp.com',
-  projectId: 'chatapp-5f828',
-  storageBucket: 'chatapp-5f828.appspot.com',
-  messagingSenderId: '496417265964',
-  appId: '1:496417265964:web:b9a34e989833f0940a7489',
-  measurementId: 'G-CJWCN9PJ7Y',
-*/
-
-  apiKey: "AIzaSyAmEWCErAmp3BsJ1SiFTHkrShEIsKyW2mw",
+    apiKey: "AIzaSyAmEWCErAmp3BsJ1SiFTHkrShEIsKyW2mw",
   authDomain: "chatapp2-85bc7.firebaseapp.com",
   projectId: "chatapp2-85bc7",
   storageBucket: "chatapp2-85bc7.appspot.com",
@@ -54,15 +45,13 @@ class Chat extends Component {
     // adds user name to header
     const {name} = this.props.route.params;
     this.props.navigation.setOptions({title: `${name}'s Chatroom`});
-
     // checks user connect
     NetInfo.fetch().then(connection => {
       if (connection.isConnected) {
         this.setState({isConnected: true});
         console.log('online');
         // authenticates user with firebase
-        this.authUnsubscribe = firebase
-          .auth()
+        this.authUnsubscribe = firebase.auth()
           .onAuthStateChanged(async user => {
             if (!user) {
               await firebase.auth().signInAnonymously();
@@ -77,7 +66,6 @@ class Chat extends Component {
               },
               messages: [],
             });
-
             // listens for changes to DB
             this.unsubscribe = this.referenceChatMessages
               .orderBy('createdAt', 'desc')
@@ -93,7 +81,7 @@ class Chat extends Component {
   // unsubscribes from user authentication and DB updates
   componentWillUnmount() {
     this.authUnsubscribe();
-   // this.unsubscribe();
+   this.unsubscribe();
   }
 
   // updates messages on client-side when new message added to DB
